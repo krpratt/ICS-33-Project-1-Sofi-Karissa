@@ -5,8 +5,18 @@ from collections import defaultdict
 
 
 def read_graph(open_file : open) -> {str:{str}}:
-    pass
-
+    infl_dict = defaultdict(set)
+    for line in open_file:
+        friends = line.split(';')
+        if len(friends) == 1:
+            infl_dict[friends[0]] = set()
+        else:
+            friend1, friend2 = friends
+            infl_dict[friend1].add(friend2)
+            infl_dict[friend2].add(friend1)
+            
+    return infl_dict
+                                
 
 def graph_as_str(graph : {str:{str}}) -> str:
     pass
@@ -23,7 +33,8 @@ def all_influenced(graph : {str:{str}}, influencers : {str}) -> {str}:
     
 if __name__ == '__main__':
     # Write script here
-              
+    file = safe_open('Select a file storing a friendship graph: ','r','Illegal File Name')
+    infl_dict = read_graph(file)           
     # For running batch self-tests
     print()
     import driver
